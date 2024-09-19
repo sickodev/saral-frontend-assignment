@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeProvider } from "@/components/providers/theme-provider";
+import { Providers } from "@/components/providers/atom-provider";
+import AuthProvider from "@/components/providers/auth-provider";
 
 const font = Inter({ subsets: ["latin"] });
 
@@ -17,10 +19,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${font.className} antialiased h-screen dark:bg-neutral-950/50 bg-neutral-400`}>
-        <ThemeProvider attribute="class" defaultTheme="dark">
-          <main className="h-full">{children}</main>
-        </ThemeProvider>
+      <body
+        className={`${font.className} antialiased h-screen dark:bg-neutral-950/50 bg-neutral-400`}
+      >
+        <Providers>
+          <AuthProvider>
+            <ThemeProvider attribute="class" defaultTheme="dark">
+              <main className="h-screen">{children}</main>
+            </ThemeProvider>
+          </AuthProvider>
+        </Providers>
       </body>
     </html>
   );
